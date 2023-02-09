@@ -6,9 +6,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompanyDaoImpl implements CompanyDao{
+public class CompanyDao implements Dao{
     private Connection connection;
-    public CompanyDaoImpl(String dbName) {
+    public CompanyDao(String dbName) {
         try {
             Class.forName(DatabaseConfig.JDBC_DRIVER);
             connection = DriverManager.getConnection(DatabaseConfig.DB_URL + dbName);

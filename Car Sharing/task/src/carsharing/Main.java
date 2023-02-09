@@ -1,7 +1,7 @@
 package carsharing;
 
 import carsharing.company.Company;
-import carsharing.company.CompanyDaoImpl;
+import carsharing.company.CompanyDao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class Main {
         }
         @SuppressWarnings("unused")
         InitDatabase initDb = new InitDatabase(dbName);
-        CompanyDaoImpl company = new CompanyDaoImpl(dbName);
+        CompanyDao companyDao = new CompanyDao(dbName);
 
         Scanner scanner = new Scanner(System.in);
 
@@ -40,7 +40,7 @@ public class Main {
                     if (managerOption == 0) {
                         break;
                     } else if (managerOption == 1) {
-                        List<Company> companies = new ArrayList<>(company.getAllCompanies());
+                        List<Company> companies = new ArrayList<>(companyDao.getAllCompanies());
                         if (companies.isEmpty()) {
                             System.out.println("The company list is empty");
                         } else {
@@ -54,7 +54,7 @@ public class Main {
                         System.out.println("Enter the company name:");
                         scanner.nextLine();
                         String name = scanner.nextLine();
-                        company.createCompany(new Company(name));
+                        companyDao.createCompany(new Company(name));
                         System.out.println("The company was created!");
 
                     }

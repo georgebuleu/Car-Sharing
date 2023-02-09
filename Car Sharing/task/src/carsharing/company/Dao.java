@@ -2,7 +2,7 @@ package carsharing.company;
 
 import java.util.List;
 
-interface CompanyDao {
+interface Dao {
     List<Company> getAllCompanies();
     void createCompany(Company company);
 }

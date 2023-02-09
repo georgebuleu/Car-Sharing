@@ -1,4 +1,8 @@
 package carsharing.car;
 
-public interface DAO {
+import java.util.List;
+
+public interface Dao {
+    List<Car> getAllCars();
+    void addCar(Car car);
 }

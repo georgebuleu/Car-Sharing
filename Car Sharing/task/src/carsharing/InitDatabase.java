@@ -10,6 +10,19 @@ public class InitDatabase {
     private Connection conn;
     private Statement stmt;
     private final String url;
+    private String dropCompany = "DROP TABLE COMPANY IF EXISTS;";
+    private String dropCar = "DROP TABLE CAR IF EXISTS";
+    private final String createCompany = "CREATE TABLE COMPANY " +
+            "(id INT PRIMARY KEY AUTO_INCREMENT," +
+            "name VARCHAR(50) NOT NULL," +
+            "UNIQUE(name));";
+    private final String createCar ="CREATE TABLE CAR " +
+            "(id INT PRIMARY KEY AUTO_INCREMENT," +
+            "name VARCHAR(50) NOT NULL," +
+            "UNIQUE(name)" +
+            "company_id INT NOT NULL" +
+            "CONSTRAINT fk_company FOREIGN KEY(company_id) REFERENCES  companies(company_id)"+
+            ");";
 
     public InitDatabase(String url) {
         try {
@@ -33,14 +46,10 @@ public class InitDatabase {
             conn.setAutoCommit(true);
 
             stmt = conn.createStatement();
-            String sql = "CREATE TABLE COMPANY " +
-                    "(id INT PRIMARY KEY AUTO_INCREMENT," +
-                    "name VARCHAR(50) NOT NULL," +
-                    "UNIQUE(name));";
-            String dropCompany = "DROP TABLE COMPANY IF EXISTS;";
+            ;
 
             stmt.executeUpdate(dropCompany);
-            stmt.executeUpdate(sql);
+            stmt.executeUpdate(createCompany);
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
