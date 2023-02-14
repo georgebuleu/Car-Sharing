@@ -4,6 +4,13 @@ public class Company {
     private String name;
     private int id;
 
+
+    public Company(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+
     public Company(String name) {
         this.name = name;
     }

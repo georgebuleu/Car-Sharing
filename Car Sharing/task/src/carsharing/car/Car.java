@@ -2,15 +2,35 @@ package carsharing.car;
 
 import carsharing.company.Company;
 
+import java.util.List;
+
 public class Car {
     private int id;
     private String name;
-    private Company company;
+    private int companyId;
 
-    public Car(int id, String name, Company company) {
+    public Car(String name, int companyId) {
+        this.name = name;
+        this.companyId = companyId;
+    }
+
+    public Car(int id, String name) {
         this.id = id;
         this.name = name;
-        this.company = company;
+    }
+
+    public Car(int id, String name, int companyId) {
+        this.id = id;
+        this.name = name;
+        this.companyId = companyId;
+    }
+
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
     }
 
     public int getId() {
@@ -29,11 +49,4 @@ public class Car {
         this.name = name;
     }
 
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
 }

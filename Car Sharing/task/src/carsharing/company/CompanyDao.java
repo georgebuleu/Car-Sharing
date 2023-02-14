@@ -18,6 +18,7 @@ public class CompanyDao implements Dao{
         }
     }
 
+
     @Override
     public List<Company> getAllCompanies() {
         List<Company> companies = new ArrayList<>();
@@ -27,12 +28,29 @@ public class CompanyDao implements Dao{
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM COMPANY");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next())  {
-                companies.add(new Company(resultSet.getString("NAME")));
+                companies.add(new Company(resultSet.getInt("id"),resultSet.getString("name")));
             }
         } catch (SQLException e){
             e.printStackTrace();
         }
         return companies;
+    }
+
+    @Override
+    public Company getById(int id) {
+
+        Company company = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM COMPANY WHERE id = ?;");
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                company = new Company(resultSet.getInt("id"), resultSet.getString("name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return company;
     }
 
     @Override

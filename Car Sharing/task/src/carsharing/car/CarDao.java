@@ -2,14 +2,13 @@ package carsharing.car;
 
 import carsharing.DatabaseConfig;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CarDao implements Dao{
 
-    Connection connection;
+    private Connection connection;
 
     public CarDao(String dbName){
         try {
@@ -23,11 +22,45 @@ public class CarDao implements Dao{
 
     @Override
     public List<Car> getAllCars() {
-        return null;
+        List<Car> cars = new ArrayList<>();
+
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM CAR;");
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+
+                cars.add(new Car(resultSet.getInt("id"), resultSet.getString("name")));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return cars;
+    }
+    public List<Car> getCarsByCompanyId(int id)  {
+        List<Car> cars = new ArrayList<>();
+        try{
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM CAR WHERE company_id = ?;");
+            statement.setInt(1,id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                cars.add(new Car(resultSet.getInt("id"),resultSet.getString("name"),resultSet.getInt("company_id")));
+            }
+        } catch (SQLException e) {
+
+        }
+        return cars;
     }
 
     @Override
     public void addCar(Car car) {
+    try{
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO CAR(NAME,COMPANY_ID) VALUES(?,?);");
+        statement.setString(1, car.getName());
+        statement.setInt(2, car.getCompanyId());
+        statement.executeUpdate();
+    }catch (SQLException e){
 
+    }
     }
 }

@@ -10,18 +10,21 @@ public class InitDatabase {
     private Connection conn;
     private Statement stmt;
     private final String url;
-    private String dropCompany = "DROP TABLE COMPANY IF EXISTS;";
-    private String dropCar = "DROP TABLE CAR IF EXISTS";
-    private final String createCompany = "CREATE TABLE COMPANY " +
+    private final String alterCompany= "ALTER TABLE company ALTER COLUMN id RESTART WITH 1";
+    private final String alterCar= "ALTER TABLE car ALTER COLUMN id RESTART WITH 1";
+
+    //private String dropCompany = "DROP TABLE COMPANY IF EXISTS;";
+   // private String dropCar = "DROP TABLE CAR IF EXISTS";
+    private final String createCompany = "CREATE TABLE IF NOT EXISTS COMPANY" +
             "(id INT PRIMARY KEY AUTO_INCREMENT," +
             "name VARCHAR(50) NOT NULL," +
             "UNIQUE(name));";
-    private final String createCar ="CREATE TABLE CAR " +
+    private final String createCar ="CREATE TABLE IF NOT EXISTS CAR" +
             "(id INT PRIMARY KEY AUTO_INCREMENT," +
             "name VARCHAR(50) NOT NULL," +
-            "UNIQUE(name)" +
-            "company_id INT NOT NULL" +
-            "CONSTRAINT fk_company FOREIGN KEY(company_id) REFERENCES  companies(company_id)"+
+            "company_id INT NOT NULL," +
+            "UNIQUE(name)," +
+            "CONSTRAINT fk_company FOREIGN KEY (company_id) REFERENCES COMPANY(id)" +
             ");";
 
     public InitDatabase(String url) {
@@ -46,10 +49,8 @@ public class InitDatabase {
             conn.setAutoCommit(true);
 
             stmt = conn.createStatement();
-            ;
-
-            stmt.executeUpdate(dropCompany);
             stmt.executeUpdate(createCompany);
+            stmt.executeUpdate(createCar);
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
