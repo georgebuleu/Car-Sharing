@@ -9,6 +9,8 @@ public class Car {
     private String name;
     private int companyId;
 
+    public Car() {}
+
     public Car(String name, int companyId) {
         this.name = name;
         this.companyId = companyId;
